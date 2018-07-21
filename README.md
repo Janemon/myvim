@@ -2,13 +2,7 @@ k-vim
 =======================
 
 
-> VERSION: 9.2
-
-> LAST_UPDATE_TIME: 2017-07-29
-
-> 本次更新: 小版本更新, 支持vim8异步语法检查
-
-详细 [更新日志](https://github.com/wklken/k-vim/wiki/UPDATE_LOG)
+# 不好意思,这个是我根据原本的k-vim, 来进行自己的vimrc改造.
 
 # 目标
 
@@ -313,30 +307,6 @@ thx a lot. 可以给我提pull request:)
 
 3. 自动补全 [YCM](https://github.com/Valloric/YouCompleteMe)
 
-4. 插件挑选 [VimAwesome](http://vimawesome.com/)
-
-### Resources
-
-[链接](http://www.wklken.me/posts/2014/10/03/vim-resources.html)
-
-### Donation
-
-如果你认为对你有所帮助, You can Buy me a coffee:)
-
-
-![donation](https://raw.githubusercontent.com/wklken/gallery/master/donation/donation_w.jpg)
-
-------------------------
-------------------------
-
-The End!
-
-wklken (凌岳/pythoner/vim党预备党员)
-
-Github: https://github.com/wklken
-
-Blog: [http://www.wklken.me](http://www.wklken.me)
-
-2013-06-11 于深圳
+4. 插件挑选 [VimAwesome](http://vimawesome.com/) 
 
 
