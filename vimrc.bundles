@@ -30,7 +30,11 @@ call plug#begin('~/.vim/bundle')
 " 移动光标到插件名上, 使用'#'快速跳转到每个插件的配置处
 
 " multiple selection
-Plug 'terryma/vim-multiple-cursors'
+"Plug 'terryma/vim-multiple-cursors'
+
+" rainbow parenthese
+Plug 'luochen1990/rainbow'
+
 
 " syntastic
 if v:version < 800

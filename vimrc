@@ -66,9 +66,9 @@ set autoread
 set shortmess=atI
 
 " 备份,到另一个位置. 防止误删, 目前是取消备份
-set backup
-set backupext=.bak
-set backupdir=/tmp/vimbk/
+"set backup
+"set backupext=.bak
+"set backupdir=/tmp/vimbk/
 
 " 取消备份。 视情况自己改
 "set nobackup
@@ -107,7 +107,7 @@ set t_ti= t_te=
 " 鼠标暂不启用, 键盘党....
 "set mouse-=a
 " 启用鼠标
-set mouse=a
+"set mouse=a
 " Hide the mouse cursor while typing
 " set mousehide
 
@@ -207,17 +207,7 @@ set smartindent
 " never add copyindent, case error   " copy the previous indentation on autoindenting
 set autoindent
 
-" tab相关变更
-" 设置Tab键的宽度        [等同的空格个数]
-set tabstop=4
-" 每一次缩进对应的空格数
-set shiftwidth=4
-" 按退格键时可以一次删掉 4 个空格
-set softtabstop=4
-" insert tabs on the start of a line according to shiftwidth, not tabstop 按退格键时可以一次删掉 4 个空格
-set smarttab
-" 将Tab自动转化成空格[需要输入真正的Tab键时，使用 Ctrl+V + Tab]
-set expandtab
+
 " 缩进时，取整 use multiple of shiftwidth when indenting with '<' and '>'
 set shiftround
 
@@ -444,15 +434,6 @@ nnoremap * #
 autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
 
 
-" tab/buffer相关
-
-" 切换前后buffer
-nnoremap [b :bprevious<cr>
-nnoremap ]b :bnext<cr>
-" 使用方向键切换buffer
-noremap <left> :bp<CR>
-noremap <right> :bn<CR>
-
 
 " tab 操作
 " http://vim.wikia.com/wiki/Alternative_tab_navigation
@@ -461,12 +442,8 @@ noremap <right> :bn<CR>
 " tab切换
 map <leader>th :tabfirst<cr>
 map <leader>tl :tablast<cr>
-
 map <leader>tj :tabnext<cr>
 map <leader>tk :tabprev<cr>
-map <leader>tn :tabnext<cr>
-map <leader>tp :tabprev<cr>
-
 map <leader>te :tabedit<cr>
 map <leader>td :tabclose<cr>
 map <leader>tm :tabm<cr>
@@ -692,6 +669,15 @@ map <silent> <F11> :call ToggleFullscreen()<CR>
 :nnoremap <leader>>> <esc>viw<esc>a>><esc>hbi<<<esc>lel
 :nnoremap <leader>b bi**<esc>ea**<esc>
 
+" 将Tab自动转化成空格[需要输入真正的Tab键时，使用 Ctrl+V + Tab]
+set expandtab
+" 设置Tab键的宽度        [等同的空格个数]
+set tabstop=4
+" 每一次缩进对应的空格数
+set shiftwidth=4
+" 按退格键时可以一次删掉 4 个空格
+set softtabstop=4
+
 :nnoremap <leader>m %
 :vnoremap <leader>m %
 " the above make cursor can jump between the pair of parentness
@@ -704,9 +690,6 @@ map <silent> <F11> :call ToggleFullscreen()<CR>
 
 :vnoremap <C-a> <esc>ggvG$ " this is select all in "v-module".
 :nnoremap <S-h> viw
-:nnoremap LL $
-:vnoremap LL $
-:inoremap LL <esc>$
 
 :inoremap <leader>l <esc>la
 :inoremap jk <esc>
@@ -723,8 +706,15 @@ map <silent> <F11> :call ToggleFullscreen()<CR>
 :nnoremap cw caw
 
 " this is just fit to some wolds file.
-:noremap  yl T.yf. 
-:noremap  dl T.df.
+:nnoremap  yl T.yf. 
+:nnoremap  dl T.df.
+
+:nnoremap <leader>t :NERDTreeToggle<CR>  
+
+"delete the <tags>. Special the html.
+:nnoremap  dm F>vF<df<vf>d
+"parir marks
+:inoremap <leader>k <esc>F<vf>yf>pF<a/<esc>hi
 
 " this is operator_motion mapping
 " this means delete all parameters in parentness.
@@ -733,6 +723,21 @@ map <silent> <F11> :call ToggleFullscreen()<CR>
 ":onoremap tr /return<cr>
 :onoremap np :<c-u>normal! f(vi(<cr>
 " this is somewhat difficult to understand, but it's function is locate
+
+
+" 交换 ' `, 使得可以快速使用'跳到marked位置
+nnoremap ' `
+nnoremap ` '
+
+" remap U to <C-r> for easier redo
+nnoremap U <C-r>
+
+" 切换前后buffer
+"nnoremap [b :bprevious<cr>
+"nnoremap ]b :bnext<cr>
+" 使用方向键切换buffer
+noremap <left> :bp<CR>
+noremap <right> :bn<CR>
 
 " rename the file
 :command! -nargs=1 Rn let tpname = expand('%:t') | saveas <args> | edit <args> | call delete(expand(tpname))
@@ -759,13 +764,14 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
-" 交换 ' `, 使得可以快速使用'跳到marked位置
-nnoremap ' `
-nnoremap ` '
 
-" remap U to <C-r> for easier redo
-nnoremap U <C-r>
+" auto open the NERDTree
+autocmd vimenter * NERDTree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
+" rainbow-pareness settings
+let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
 
 
 
