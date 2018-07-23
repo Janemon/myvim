@@ -766,13 +766,12 @@ map <C-l> <C-W>l
 
 
 " auto open the NERDTree
-autocmd vimenter * NERDTree
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" autocmd vimenter * NERDTree
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " rainbow-pareness settings
 let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
-
 
 
 

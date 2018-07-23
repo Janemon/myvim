@@ -35,7 +35,9 @@ call plug#begin('~/.vim/bundle')
 " rainbow parenthese
 Plug 'luochen1990/rainbow'
 
-
+" markdown
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
 " syntastic
 if v:version < 800
     Plug 'scrooloose/syntastic'
@@ -46,7 +48,7 @@ endif
 " Group dependencies, vim-snippets depends on ultisnips
 " 代码片段快速插入 (snippets中,是代码片段资源,需要学习)
 " Snippets are separated from the engine. Add this if you want them:
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+" Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " auto complete
 " 代码自动补全
@@ -95,7 +97,7 @@ Plug 'kshenoy/vim-signature'
 " quick selection and edit
 " expandregion
 " 选中区块
-Plug 'terryma/vim-expand-region'
+" Plug 'terryma/vim-expand-region'
 " 多光标选中编辑
 " multiplecursors
 Plug 'terryma/vim-multiple-cursors'
