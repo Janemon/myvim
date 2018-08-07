@@ -27,17 +27,97 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 
+
 "Plugin 'Valloric/YouCompleteMe'
+"the substitute for YouCompleteMe
+"Plugin 'Shougo/neocomplete.vim'
+"Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
+" Disable AutoComplPop.
+"let g:acp_enableAtStartup = 0
+" Use neocomplete.
+"let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+"let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+"let g:neocomplete#sources#syntax#min_keyword_length = 3
+
+" Define dictionary.
+"let g:neocomplete#sources#dictionary#dictionaries = {
+""    \ 'default' : '',
+""    \ 'vimshell' : $HOME.'/.vimshell_hist',
+""    \ 'scheme' : $HOME.'/.gosh_completions'
+""        \ }
+"
+"" Define keyword.
+"if !exists('g:neocomplete#keyword_patterns')
+""    let g:neocomplete#keyword_patterns = {}
+"endif
+"let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+"inoremap <expr><C-g>     neocomplete#undo_completion()
+"inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+"inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+"function! s:my_cr_function()
+"  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+"  " For no inserting <CR> key.
+"  "return pumvisible() ? "\<C-y>" : "\<CR>"
+"endfunction
+"" <TAB>: completion.
+"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"" <C-h>, <BS>: close popup and delete backword char.
+"inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+"inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+" AutoComplPop like behavior.
+"let g:neocomplete#enable_auto_select = 1
+
+" Shell like behavior(not recommended).
+"set completeopt+=longest
+"let g:neocomplete#enable_auto_select = 1
+"let g:neocomplete#disable_auto_complete = 1
+"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+
+" Enable omni completion.
+"autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+"autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+"autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+"autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+"
+"" Enable heavy omni completion.
+"if !exists('g:neocomplete#sources#omni#input_patterns')
+""  let g:neocomplete#sources#omni#input_patterns = {}
+"endif
+""let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+""let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+""let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+"
+"" For perlomni.vim setting.
+"" https://github.com/c9s/perlomni.vim
+"let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+
 
 " rainbow parenthese
 Plugin 'luochen1990/rainbow'
 
+
 " markdown
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
+"markdown 实时预览(需要Python支持)
+"Plugin 'iamcco/mathjax-support-for-mkdp'
+"Plugin 'iamcco/markdown-preview.vim'
+Plugin 'suan/vim-instant-markdown'
+
 
 " syntastic
- Plugin 'w0rp/ale'
+Plugin 'w0rp/ale'
 
 
 " Group dependencies, vim-snippets depends on ultisnips
@@ -100,7 +180,7 @@ Plugin 'ctrlpvim/ctrlp.vim' | Plugin 'tacahiroy/ctrlp-funky'
     let g:ctrlp_mruf_max=500
     let g:ctrlp_follow_symlinks=1
 
-    " 如果安装了ag, 使用ag
+" 如果安装了ag, 使用ag
 " ctrlsf
 " 类似sublimetext的搜索
 " In CtrlSF window:
@@ -114,6 +194,10 @@ Plugin 'dyng/ctrlsf.vim'
 " map /  <Plug>(incsearch-forward)
 " map ?  <Plug>(incsearch-backward)
 " map g/ <Plug>(incsearch-stay)
+
+" 有些小问题, 我还以为可以代替Ctrlp呢?
+"Plugin 'Yggdroot/LeaderF', { 'do': './install.sh' }
+
 
 " quickrun
 Plugin 'thinca/vim-quickrun'
@@ -200,10 +284,18 @@ set noswapfile
 " 在搜索时或者在其他处理文件的地方时,忽略特定格式的文件
 set wildignore=*.swp,*.bak,*.pyc,*.class,.svn
 
-" 突出显示当前列
-set cursorcolumn
-" 突出显示当前行
-set cursorline
+
+if has('gui_running')
+  " don't show cursorcolumn. 
+   set cursorline 
+else
+  " 突出显示当前列
+   set cursorcolumn
+  " 突出显示当前行
+   set cursorline
+endif 
+
+
 " 显示当前的行号列号
 set ruler
 " 在状态栏显示正在输入的命令
@@ -498,13 +590,13 @@ autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
 
 
 " tab切换
-map <leader>th :tabfirst<cr>
-map <leader>tl :tablast<cr>
-map <leader>tj :tabnext<cr>
-map <leader>tk :tabprev<cr>
-map <leader>te :tabedit<cr>
-map <leader>td :tabclose<cr>
-map <leader>tm :tabm<cr>
+noremap <leader>th :tabfirst<cr>
+noremap <leader>tl :tablast<cr>
+noremap <leader>tj :tabnext<cr>
+noremap <leader>tk :tabprev<cr>
+noremap <leader>te :tabedit<cr>
+noremap <leader>td :tabclose<cr>
+noremap <leader>tm :tabm<cr>
 
 " normal模式下切换到确切的tab
 noremap <leader>1 1gt
@@ -608,7 +700,6 @@ endif
 set t_Co=256
 ":set guiheadroom=0 
     
-
 " theme主题
 set background=dark
 set t_Co=256
@@ -641,7 +732,6 @@ highlight SpellLocal term=underline cterm=underline
 :au FocusLost * :wa
 "autocmd CursorHold,CursorHoldI * update
 autocmd CursorHold * update
-
 
 " 全屏开/关快捷键
 map <silent> <F11> :call ToggleFullscreen()<CR>
@@ -695,10 +785,14 @@ set softtabstop=4
 :inoremap <esc> <nop>
 :vnoremap jk <esc>
 :vnoremap <esc> <nop>
-:nnoremap LL 0
-:nnoremap L $
-:vnoremap LL 0
-:vnoremap L $
+:nnoremap HH 0
+:nnoremap LL $
+:vnoremap HH 0
+:vnoremap LL $
+
+" 遮盖内容(加密)
+:nnoremap <Leader>zf ggVGg?
+
 
 :inoremap ,, <esc>f)a
 :inoremap ,,, <esc>f>a
@@ -719,7 +813,7 @@ set softtabstop=4
 
 
 "delete the <tags>. Special the html.
-:nnoremap dm F>vF<df<vf>d
+:nnoremap dm F<vf>df<vf>d
 "parir marks
 :inoremap <leader>k <esc>F<vf>yf>pF<a/<esc>hi
 
@@ -807,7 +901,6 @@ nnoremap <silent> <Leader>z :ZoomToggle<CR>
 
 " 禁止ctrlp的<c-o>来打开多文件 
 let g:ctrlp_open_multiple_files =0 
-
 
 
 
