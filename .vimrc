@@ -15,7 +15,8 @@
 
 " 非兼容vi模式。去掉讨厌的有关vi一致性模式，避免以前版本的一些bug和局限
 set nocompatible
-filetype off " required! turn off
+" required! turn off
+filetype off
 " 允许插件
 filetype plugin on
 
@@ -27,11 +28,16 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 
+" 解决中文输入法下面无法使用命令
+Plugin 'ybian/smartim'
+
+" CSS3 高亮，包括stylus,Less,Sass
+Plugin 'hail2u/vim-css3-syntax'
 
 "Plugin 'Valloric/YouCompleteMe'
 "the substitute for YouCompleteMe
 "Plugin 'Shougo/neocomplete.vim'
-"Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
+"Note, This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
 " Disable AutoComplPop.
 "let g:acp_enableAtStartup = 0
 " Use neocomplete.
@@ -102,6 +108,40 @@ Plugin 'VundleVim/Vundle.vim'
 "" https://github.com/c9s/perlomni.vim
 "let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
+" improved javscript
+Plugin 'pangloss/vim-javascript'
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_ngdoc = 1
+let g:javascript_plugin_flow = 1
+let javascript_enable_domhtmlcss = 1
+augroup javascript_folding
+      au!
+      au FileType javascript setlocal foldmethod=syntax
+augroup END
+let g:javascript_conceal_function             = "ƒ"
+let g:javascript_conceal_null                 = "ø"
+let g:javascript_conceal_this                 = "@"
+let g:javascript_conceal_return               = "⇚"
+let g:javascript_conceal_undefined            = "¿"
+let g:javascript_conceal_NaN                  = "ℕ"
+let g:javascript_conceal_prototype            = "¶"
+let g:javascript_conceal_static               = "•"
+let g:javascript_conceal_super                = "Ω"
+let g:javascript_conceal_arrow_function       = "⇒"
+let g:javascript_conceal_noarg_arrow_function = "🞅"
+let g:javascript_conceal_underscore_arrow_function = "🞅"
+
+" hightlight Vue
+Plugin 'posva/vim-vue'
+autocmd FileType vue syntax sync fromstart
+autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript.css
+
+" embed javascript in html
+
+" expanding abbreviations similar to emmet
+Plugin 'mattn/emmet-vim'
+let g:user_emmet_leader_key='<C-k>' " html:5<c-k>, make a default template. 
+
 
 " rainbow parenthese
 Plugin 'luochen1990/rainbow'
@@ -118,6 +158,16 @@ Plugin 'suan/vim-instant-markdown'
 
 " syntastic
 Plugin 'w0rp/ale'
+
+" what the fuck! Like the YIMcomplete
+" Plugin 'vim-syntastic/syntastic'
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
 
 
 " Group dependencies, vim-snippets depends on ultisnips
@@ -243,7 +293,6 @@ Plugin 'kana/vim-textobj-entire'
 Plugin 'kana/vim-textobj-indent'
 
 
-
 call vundle#end()
 
 "==========================================
@@ -253,8 +302,6 @@ call vundle#end()
 
 " 开启语法高亮
 syntax on
-" 检测文件类型
-" filetype on
 " 针对不同的文件类型采用不同的缩进格式
 filetype indent on
 " 启动自动补全
@@ -263,6 +310,7 @@ filetype plugin indent on
 
 " history存储容量
 set history=2000
+
 
 
 " 文件修改之后自动载入
@@ -327,10 +375,6 @@ set whichwrap+=<,>,h,l
 set t_ti= t_te=
 
 
-" 修复ctrl+m 多光标操作选择的bug，但是改变了ctrl+v进行字符选中时将包含光标下的字符
-"set selection=inclusive
-"set selectmode=mouse,key
-
 
 " 去掉输入错误的提示声音
 "set novisualbell
@@ -386,21 +430,8 @@ set foldenable
 " syntax    使用语法定义折叠
 " diff      对没有更改的文本进行折叠
 " marker    使用标记进行折叠, 默认标记是 {{{ 和 }}}
-set foldmethod=indent
-set foldlevel=99
-" 代码折叠自定义快捷键 <leader>zz
-let g:FoldMethod = 0
-map <leader>zz :call ToggleFold()<cr>
-fun! ToggleFold()
-    if g:FoldMethod == 0
-        exe "normal! zM"
-        let g:FoldMethod = 1
-    else
-        exe "normal! zR"
-        let g:FoldMethod = 0
-    endif
-endfun
-" 暂时不清楚是什么具体作用
+"set foldmethod=indent
+"set foldlevel=99
 
 
 " 缩进配置
@@ -431,13 +462,13 @@ au FocusGained * :set relativenumber
 autocmd InsertEnter * :set norelativenumber number
 autocmd InsertLeave * :set relativenumber
 function! NumberToggle()
-  if(&relativenumber == 1)
-    set norelativenumber number
-  else
-    set relativenumber
-  endif
+if(&relativenumber == 1)
+  set norelativenumber number
+else
+  set relativenumber
+endif
 endfunc
-nnoremap <C-n> :call NumberToggle()<cr>
+"nnoremap <C-n> :call NumberToggle()<cr>
 
 
 
@@ -504,7 +535,7 @@ autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
 
 " 打开自动定位到最后编辑的位置, 需要确认 .viminfo 当前用户可写
 if has("autocmd")
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 " 这个也不知所云云
 
@@ -529,14 +560,14 @@ nnoremap gj j
 " F2 行号开关，用于鼠标复制代码用
 " 为方便复制，用<F2>开启/关闭行号显示:
 function! HideNumber()
-  if(&relativenumber == &number)
-    set relativenumber! number!
-  elseif(&number)
-    set number!
-  else
-    set relativenumber!
-  endif
-  set number?
+if(&relativenumber == &number)
+  set relativenumber! number!
+elseif(&number)
+  set number!
+else
+  set relativenumber!
+endif
+set number?
 endfunc
 
 nnoremap <F2> :call HideNumber()<CR>
@@ -548,9 +579,9 @@ nnoremap <F4> :set wrap! wrap?<CR>
 " F5 set paste问题已解决, 粘贴代码前不需要按F5了
 " F5 粘贴模式paste_mode开关,用于有格式的代码粘贴
 function! XTermPasteBegin()
-  set pastetoggle=<Esc>[201~
-  set paste
-  return ""
+set pastetoggle=<Esc>[201~
+set paste
+return ""
 endfunction
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
@@ -562,7 +593,7 @@ nnoremap <F6> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
 " http://stackoverflow.com/questions/13194428/is-better-way-to-zoom-windows-in-vim-than-zoomwin
 " Zoom / Restore window.
 function! s:ZoomToggle() abort
-    if exists('t:zoomed') && t:zoomed
+  if exists('t:zoomed') && t:zoomed
         execute t:zoom_winrestcmd
         let t:zoomed = 0
     else
@@ -590,13 +621,13 @@ autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
 
 
 " tab切换
-noremap <leader>th :tabfirst<cr>
-noremap <leader>tl :tablast<cr>
-noremap <leader>tj :tabnext<cr>
-noremap <leader>tk :tabprev<cr>
-noremap <leader>te :tabedit<cr>
-noremap <leader>td :tabclose<cr>
-noremap <leader>tm :tabm<cr>
+nnoremap <leader>ht :tabfirst<cr>
+nnoremap <leader>lt :tablast<cr>
+nnoremap <leader>jt :tabnext<cr>
+nnoremap <leader>kt :tabprev<cr>
+nnoremap <leader>et :tabedit<cr>
+nnoremap <leader>dt :tabclose<cr>
+nnoremap <leader>mt :tabm<cr>
 
 " normal模式下切换到确切的tab
 noremap <leader>1 1gt
@@ -631,14 +662,15 @@ autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript tabstop=2
 au BufWinEnter *.php set mps-=<:>
 
 
-" 保存python文件时删除多余空格
+" 保存文件时删除多余空格
 fun! <SID>StripTrailingWhitespaces()
     let l = line(".")
     let c = col(".")
     %s/\s\+$//e
     call cursor(l, c)
 endfun
-autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType c,cpp,java,go,php,html,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+
 
 
 " 定义函数AutoSetFileHead，自动插入文件头
@@ -664,7 +696,7 @@ endfunc
 
 " 设置可以高亮的关键字
 if has("autocmd")
-  " Highlight TODO, FIXME, NOTE, etc.
+" Highlight TODO, FIXME, NOTE, etc.
   if v:version > 701
     autocmd Syntax * call matchadd('Todo',  '\W\zs\(TODO\|FIXME\|CHANGED\|DONE\|XXX\|BUG\|HACK\)')
     autocmd Syntax * call matchadd('Debug', '\W\zs\(NOTE\|INFO\|IDEA\|NOTICE\)')
@@ -847,6 +879,8 @@ noremap <right> :bn<CR>
 " rename the file
 :command! -nargs=1 Rn let tpname = expand('%:t') | saveas <args> | edit <args> | call delete(expand(tpname))
  
+" 块注释
+:nnoremap <leader>zs i/*<cr> *<cr>*<cr>*<cr>*<cr>*/<esc>kkkkka =========<esc>jja ---------<esc>ka 
 
 " this is auto cmd
 :augroup MY
