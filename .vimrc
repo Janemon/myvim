@@ -34,79 +34,6 @@ Plugin 'ybian/smartim'
 " CSS3 高亮，包括stylus,Less,Sass
 Plugin 'hail2u/vim-css3-syntax'
 
-"Plugin 'Valloric/YouCompleteMe'
-"the substitute for YouCompleteMe
-"Plugin 'Shougo/neocomplete.vim'
-"Note, This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
-" Disable AutoComplPop.
-"let g:acp_enableAtStartup = 0
-" Use neocomplete.
-"let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-"let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-"let g:neocomplete#sources#syntax#min_keyword_length = 3
-
-" Define dictionary.
-"let g:neocomplete#sources#dictionary#dictionaries = {
-""    \ 'default' : '',
-""    \ 'vimshell' : $HOME.'/.vimshell_hist',
-""    \ 'scheme' : $HOME.'/.gosh_completions'
-""        \ }
-"
-"" Define keyword.
-"if !exists('g:neocomplete#keyword_patterns')
-""    let g:neocomplete#keyword_patterns = {}
-"endif
-"let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" Plugin key-mappings.
-"inoremap <expr><C-g>     neocomplete#undo_completion()
-"inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-"inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-"function! s:my_cr_function()
-"  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-"  " For no inserting <CR> key.
-"  "return pumvisible() ? "\<C-y>" : "\<CR>"
-"endfunction
-"" <TAB>: completion.
-"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-"" <C-h>, <BS>: close popup and delete backword char.
-"inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-"inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-" Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
-
-" AutoComplPop like behavior.
-"let g:neocomplete#enable_auto_select = 1
-
-" Shell like behavior(not recommended).
-"set completeopt+=longest
-"let g:neocomplete#enable_auto_select = 1
-"let g:neocomplete#disable_auto_complete = 1
-"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
-
-" Enable omni completion.
-"autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-"autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-"autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-"autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-"
-"" Enable heavy omni completion.
-"if !exists('g:neocomplete#sources#omni#input_patterns')
-""  let g:neocomplete#sources#omni#input_patterns = {}
-"endif
-""let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-""let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-""let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-"
-"" For perlomni.vim setting.
-"" https://github.com/c9s/perlomni.vim
-"let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 " improved javscript
 Plugin 'pangloss/vim-javascript'
@@ -118,6 +45,7 @@ augroup javascript_folding
       au!
       au FileType javascript setlocal foldmethod=syntax
 augroup END
+
 let g:javascript_conceal_function             = "ƒ"
 let g:javascript_conceal_null                 = "ø"
 let g:javascript_conceal_this                 = "@"
@@ -131,12 +59,20 @@ let g:javascript_conceal_arrow_function       = "⇒"
 let g:javascript_conceal_noarg_arrow_function = "🞅"
 let g:javascript_conceal_underscore_arrow_function = "🞅"
 
+
+
+Plugin 'leshill/vim-json'
+
+Plugin 'nathanaelkane/vim-indent-guides'
+
+Plugin 'scrooloose/syntastic'
+let g:syntastic_javsacript_checkers = ['eslint']
+
 " hightlight Vue
 Plugin 'posva/vim-vue'
 autocmd FileType vue syntax sync fromstart
 autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript.css
 
-" embed javascript in html
 
 " expanding abbreviations similar to emmet
 Plugin 'mattn/emmet-vim'
@@ -158,27 +94,6 @@ Plugin 'suan/vim-instant-markdown'
 
 " syntastic
 Plugin 'w0rp/ale'
-
-" what the fuck! Like the YIMcomplete
-" Plugin 'vim-syntastic/syntastic'
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-
-
-" Group dependencies, vim-snippets depends on ultisnips
-" 代码片段快速插入 (snippets中,是代码片段资源,需要学习)
-" Snippets are separated from the engine. Add this if you want them:
-" Plugin 'SirVer/ultisnips' | Plugin 'honza/vim-snippets'
-" auto complete
-" 代码自动补全
-" 迄今为止用到的最好的自动VIM自动补全插件
-" 重启 :YcmRestartServer
-"Plugin 'Valloric/YouCompleteMe'
 
 
 " 自动补全单引号，双引号等
@@ -245,9 +160,6 @@ Plugin 'dyng/ctrlsf.vim'
 " map ?  <Plug>(incsearch-backward)
 " map g/ <Plug>(incsearch-stay)
 
-" 有些小问题, 我还以为可以代替Ctrlp呢?
-"Plugin 'Yggdroot/LeaderF', { 'do': './install.sh' }
-
 
 " quickrun
 Plugin 'thinca/vim-quickrun'
@@ -269,9 +181,6 @@ Plugin 'sjl/gundo.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
-" rainbow_parentheses
-" 括号显示增强
-"Plugin 'kien/rainbow_parentheses.vim'
 
 " nav
 " nerdtree nerdtreetabs
@@ -419,6 +328,7 @@ set incsearch
 set ignorecase
 " 有一个或以上大写字母时仍大小写敏感
 set smartcase
+:nnoremap <leader>nn :nohl<CR>
 
 
 " 代码折叠
@@ -431,7 +341,9 @@ set foldenable
 " diff      对没有更改的文本进行折叠
 " marker    使用标记进行折叠, 默认标记是 {{{ 和 }}}
 "set foldmethod=indent
-"set foldlevel=99
+set foldmethod=syntax
+"打开文件是默认不折叠代码
+set foldlevelstart=99
 
 
 " 缩进配置
@@ -546,15 +458,10 @@ endif
 
 
 "set swap之后，同物理行上线直接跳
-nnoremap k gk
-nnoremap gk k
-nnoremap j gj
-nnoremap gj j
-
-
-" F1 废弃这个键,防止调出系统帮助
-" I can type :help on my own, thanks.  Protect your fat fingers from the evils of <F1>
-"nnoremap <F1> <Esc>"
+"nnoremap k gk
+"nnoremap gk k
+"nnoremap j gj
+"nnoremap gj j
 
 
 " F2 行号开关，用于鼠标复制代码用
@@ -623,23 +530,13 @@ autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
 " tab切换
 nnoremap <leader>ht :tabfirst<cr>
 nnoremap <leader>lt :tablast<cr>
-nnoremap <leader>jt :tabnext<cr>
-nnoremap <leader>kt :tabprev<cr>
-nnoremap <leader>et :tabedit<cr>
+nnoremap <S-Left> :tabprev<cr>
+nnoremap <S-Right> :tabnext<cr>
 nnoremap <leader>dt :tabclose<cr>
 nnoremap <leader>mt :tabm<cr>
+"nnoremap <leader>et :tabedit<cr>
 
-" normal模式下切换到确切的tab
-noremap <leader>1 1gt
-noremap <leader>2 2gt
-noremap <leader>3 3gt
-noremap <leader>4 4gt
-noremap <leader>5 5gt
-noremap <leader>6 6gt
-noremap <leader>7 7gt
-noremap <leader>8 8gt
-noremap <leader>9 9gt
-noremap <leader>0 :tablast<cr>
+
 
 " 新建tab  Ctrl+t
 nnoremap <C-t>     :tabnew<CR>
@@ -759,9 +656,7 @@ highlight SpellLocal term=underline cterm=underline
 " ============================Janemon=================================
 :let mapleader=','
 
-:set updatetime=500
-:set updatecount=3
-:au FocusLost * :wa
+:set updatetime=3000
 "autocmd CursorHold,CursorHoldI * update
 autocmd CursorHold * update
 
@@ -796,10 +691,6 @@ set shiftwidth=4
 set softtabstop=4
 
 
-:nnoremap <leader>m %
-:vnoremap <leader>m %
-" the above make cursor can jump between the pair of parentness
-
 
 :vnoremap <C-y> "+y
 :nnoremap <C-p> "+p
@@ -809,8 +700,12 @@ set softtabstop=4
 
 :nnoremap <C-a> <esc>ggvG$ " this is select all in "v-module".
 :nnoremap <S-h> viw
-:nnoremap <S-n> :nohls<cr>
+:nnoremap <S-l> :nohls<cr>
 
+
+
+" synchronize html file
+:nnoremap <S-P> :!google-chrome %<CR>
 
 :inoremap <leader>l <esc>la
 :inoremap jk <esc>
@@ -826,6 +721,7 @@ set softtabstop=4
 :nnoremap <Leader>zf ggVGg?
 
 
+" 找括号
 :inoremap ,, <esc>f)a
 :inoremap ,,, <esc>f>a
 :nnoremap ,, <esc>f)a
@@ -840,8 +736,10 @@ set softtabstop=4
 :nnoremap  yl T.yf. 
 :nnoremap  dl T.df.
 
+" quit without save
+:nnoremap qq :q<CR>
 
-:nnoremap <leader>t :NERDTreeToggle<CR>  
+:nnoremap <leader>t :NERDTreeToggle %<CR>  
 
 
 "delete the <tags>. Special the html.
@@ -857,6 +755,10 @@ set softtabstop=4
 ":onoremap tr /return<cr>
 :onoremap np :<c-u>normal! f(vi(<cr>
 " this is somewhat difficult to understand, but it's function is locate
+
+
+" delete content in double quoto
+:nnoremap d' F"lvf"hdi
 
 
 " 交换 ' `, 使得可以快速使用'跳到marked位置
@@ -886,9 +788,10 @@ noremap <right> :bn<CR>
 :augroup MY
   :autocmd!
   :autocmd FileType javascript nnoremap <leader>c 0i//<esc>
+  :autocmd FileType html inoremap <leader>c <!----><esc>F-;i
+  :autocmd FileType html nnoremap d> F>lvf<hdh
   :autocmd FileType * vnoremap <leader>cc di*/<esc>hi/*<esc>""p
   :autocmd BufWrite,BufRead *.html :normal gg=G
-  :autocmd FileType javascript :iabbrev iff if(){}
   :autocmd bufwrite * :echom "writing buffer"
 :augroup END
 
